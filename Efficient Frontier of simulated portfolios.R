@@ -58,19 +58,6 @@ Final_Portfolio<-tibble(Return=Portfolio_Returns,Risk=Risk,Sharpe_Rat=sharpe_rat
 port_weights<-tk_tbl(port_weights)
 colnames(port_weights)<-colnames(log_time_series)
 Final_Portfolio<-tk_tbl(cbind(port_weights,Final_Portfolio))
-head(Final_Portfolio)
-MinVarPort<-Final_Portfolio[which.min(Final_Portfolio$Risk),]
-MinVarPort
-MaxSharpeRat<-Final_Portfolio[which.max(Final_Portfolio$Sharpe_Rat),]
-#plot Min Var port weights
-p<-MinVarPort%>% gather(BOO.L,key=Asset,value = Weights)%>%
-  mutate(Asset=as.factor(Asset))%>% ggplot(aes(x=fct_reorder(Asset,Weights),y=Weights,fill=Asset))+
-  geom_bar(stat='identity')+
-  theme_minimal()+
-  labs(x='Assets',y='Weights',title="Min Var Port Weights")+ scale_y_continuous(labels=scales::percent)
-
-GGPLOTLY(p)
-ggplotly(p)
 
 Efficient_Frontier<-Final_Portfolio%>%
   ggplot(aes(x=Risk,y=Return,color=sharpe_ratio))+geom_point()+
